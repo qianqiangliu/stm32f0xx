@@ -4,14 +4,14 @@ AR := $(CROSS_COMPILE)ar
 OBJCOPY := $(CROSS_COMPILE)objcopy
 
 CFLAGS := -Wall -mthumb -mcpu=cortex-m0 --specs=nosys.specs -Ilib/inc -DUSE_STDPERIPH_DRIVER -DSTM32F030
-LDFLAGS := -nostartfiles -Tlinker.ld
+LDFLAGS := -nostartfiles -Tlib/stm32_flash.ld
 
 all: stm32f0xx.bin stm32f0xx.hex
 
 stm32f0xx.bin: stm32f0xx.elf
 	$(OBJCOPY) -O binary $< $@
 
-stm32f0xx.elf: src/start.o src/main.o lib/src/libstm32f0xx.a
+stm32f0xx.elf: src/main.o lib/src/libstm32f0xx.a
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 stm32f0xx.hex: stm32f0xx.elf
@@ -23,7 +23,7 @@ lib/src/libstm32f0xx.a: lib/src/stm32f0xx_adc.o lib/src/stm32f0xx_can.o lib/src/
 	lib/src/stm32f0xx_gpio.o lib/src/stm32f0xx_i2c.o lib/src/stm32f0xx_iwdg.o lib/src/stm32f0xx_misc.o \
 	lib/src/stm32f0xx_pwr.o lib/src/stm32f0xx_rcc.o lib/src/stm32f0xx_rtc.o lib/src/stm32f0xx_spi.o \
 	lib/src/stm32f0xx_syscfg.o lib/src/stm32f0xx_tim.o lib/src/stm32f0xx_usart.o lib/src/stm32f0xx_wwdg.o \
-	lib/src/system_stm32f0xx.o
+	lib/src/startup_stm32f0xx.o lib/src/system_stm32f0xx.o
 	$(AR) -crv $@ $^
 
 %.o: %.s
