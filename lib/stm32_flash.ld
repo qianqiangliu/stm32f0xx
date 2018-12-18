@@ -40,7 +40,7 @@ _Min_Stack_Size = 0x400; /* required amount of stack */
 /* Specify the memory areas */
 MEMORY
 {
-  FLASH (rx)      : ORIGIN = 0x8000000, LENGTH = 64K
+  FLASH (rx)     : ORIGIN = 0x08000000, LENGTH = 64K
   RAM (xrw)      : ORIGIN = 0x20000000, LENGTH = 8K
 }
 
@@ -124,7 +124,6 @@ SECTIONS
     _edata = .;        /* define a global symbol at data end */
   } >RAM AT> FLASH
 
-
   /* Uninitialized data section */
   . = ALIGN(4);
   .bss :
@@ -151,8 +150,6 @@ SECTIONS
     . = . + _Min_Stack_Size;
     . = ALIGN(4);
   } >RAM
-
-
 
   /* Remove information from the standard libraries */
   /DISCARD/ :
