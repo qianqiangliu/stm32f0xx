@@ -6,9 +6,9 @@ int main()
 {
 	led_init();
 
-    if (SysTick_Config(8000)) {
-        while (1);
-    }
+	if (SysTick_Config(24000)) {
+		while (1);
+	}
 
 	for (;;) {
 	}
@@ -18,5 +18,5 @@ int main()
 
 void SysTick_Handler(void)
 {
-    led_toggle();
+	led_toggle();
 }
