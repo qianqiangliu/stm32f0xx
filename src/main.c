@@ -1,20 +1,22 @@
-#include "led.h"
+#include <stm32f0xx.h>
 
-void delay(int n)
-{
-	while (n != 0) {
-		n--;
-	}
-}
+#include "led.h"
 
 int main()
 {
 	led_init();
 
+    if (SysTick_Config(8000)) {
+        while (1);
+    }
+
 	for (;;) {
-		delay(800000);
-		led_toggle();
 	}
 
 	return 0;
+}
+
+void SysTick_Handler(void)
+{
+    led_toggle();
 }
