@@ -11,7 +11,7 @@ all: stm32f0xx.bin stm32f0xx.hex
 stm32f0xx.bin: stm32f0xx.elf
 	$(OBJCOPY) -O binary $< $@
 
-stm32f0xx.elf: src/startup_stm32f0xx.o src/system_stm32f0xx.o src/led.o src/main.o lib/src/libstm32f0xx.a
+stm32f0xx.elf: src/startup_stm32f0xx.o src/system_stm32f0xx.o src/pendsv_handler.o src/led.o src/main.o src/os.o lib/src/libstm32f0xx.a
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 stm32f0xx.hex: stm32f0xx.elf
