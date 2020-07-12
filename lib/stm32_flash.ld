@@ -151,13 +151,5 @@ SECTIONS
     . = ALIGN(4);
   } >RAM
 
-  /* Remove information from the standard libraries */
-  /DISCARD/ :
-  {
-    libc.a ( * )
-    libm.a ( * )
-    libgcc.a ( * )
-  }
-
   .ARM.attributes 0 : { *(.ARM.attributes) }
 }

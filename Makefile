@@ -1,18 +1,19 @@
 CROSS_COMPILE ?= arm-none-eabi-
 CC := $(CROSS_COMPILE)gcc
+LD := $(CROSS_COMPILE)ld
 AR := $(CROSS_COMPILE)ar
 OBJCOPY := $(CROSS_COMPILE)objcopy
 
 CFLAGS := -Wall -mthumb -mcpu=cortex-m0 --specs=nosys.specs -Ilib/inc -Isrc -DUSE_STDPERIPH_DRIVER -DSTM32F030
-LDFLAGS := -nostartfiles -Tlib/stm32_flash.ld
+LDFLAGS := -Tlib/stm32_flash.ld lib/libgcc.a
 
 all: stm32f0xx.bin stm32f0xx.hex
 
 stm32f0xx.bin: stm32f0xx.elf
 	$(OBJCOPY) -O binary $< $@
 
-stm32f0xx.elf: src/startup_stm32f0xx.o src/system_stm32f0xx.o src/pendsv_handler.o src/led.o src/main.o src/os.o lib/src/libstm32f0xx.a
-	$(CC) -o $@ $^ $(LDFLAGS)
+stm32f0xx.elf: src/startup_stm32f0xx.o src/system_stm32f0xx.o src/pendsv_handler.o src/led.o src/usart.o src/main.o src/os.o lib/src/libstm32f0xx.a
+	$(LD) -o $@ $^ $(LDFLAGS)
 
 stm32f0xx.hex: stm32f0xx.elf
 	$(OBJCOPY) -O ihex $< $@

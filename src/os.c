@@ -55,7 +55,7 @@ int os_start(void)
 {
 	NVIC_SetPriority(PendSV_IRQn, 0xff);
 
-	if (SysTick_Config(24000))
+	if (SysTick_Config(SystemCoreClock / 1000))
 		return -1;
 
 	os_curr_task = &task_table.tasks[task_table.current_task];
